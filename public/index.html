@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<!--
+
+                                    ----                                   
+                                 ---------                                 
+                                ----***----                                
+                                ---*****---                                
+                                ----=+=----                                
+                                 ---------                                 
+                                    ---                                    
+                                    ---                                    
+                                    ---                                    
+                                    ---                                    
+            -------===========---------------------------------            
+           --------===========----------------------------------           
+           --------------------------------===========----------           
+           --------========----------------===========----------           
+           -------====...====-----------------=====-------------           
+      #****=-----===.     .===--------------=========-----------****#      
+     ******=----===:       -==-------------==-.    -===---------******     
+     ******=-----==-      .===-----==-----===.      -==---------******     
+     ******=-----====-. .-===------**+----===.      ===---------******     
+     ******=-------=========-----=****=----===:....===----------******     
+     ******=--------------------=******-----=========-----------******     
+     ******=----------------------------------------------------******     
+     ******=----------------------------------------------------******     
+     ******=--------------.--...=...=...=:...=.:----------------******     
+     ******=------------:  --  .=   =.  =:   =. :---------------******     
+     ******=--------:::::  --  .=   =.  =:   =. .---------------******     
+     ******=------:::=++-:.--  .=   =.  =:   =..----------------******     
+     ******=----::-+++++----------------------------------------******     
+     ******=---::+++++++----------------------------------------******     
+      *****=---:++++++++---------::.::--------------------------******     
+       ****=---=+++++++--------:....:---------------------------****       
+           ----+++++++-------:::-=++++--------------------------           
+           ----+++++++-:::::::-+++++++--------------------------           
+           ----=++++++++-:::-++++++++=--------------------------           
+            ----++++++++++++++++++++=--------------------------            
+              --==+++++++++++++++++=--------------------------             
+              ======++++++++++++++                                         
+              ===-===:-++++++++                                            
+                ===--=======                                               
+                 =====---=+                                                
+                     =====                                                 
+
+A little machine is thinking, beeping and booping. 
+
+If you are interested in joining us to build Thinking Machines Lab, 
+send a message to: joinus@thinkingmachines.ai
+-->
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thinking Machines Lab</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+
+    <style>
+        :root {
+            --margin-page: 2em;
+            --ui-primary: #000;
+            --ui-secondary: #6b7280;
+            --text-select--bg: #7d7373;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+        }
+
+        :focus-visible {
+            outline: 1px dotted;
+            outline-offset: 0.1875em;
+            border-radius: 1px;
+            text-decoration: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(5px);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+
+            100% {
+                transform: translateY(5px);
+            }
+        }
+
+        @keyframes gradRotate {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        .float-animation {
+            backface-visibility: hidden;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        @media(prefers-reduced-animation: reduce) {
+            .float-animation {
+                animation: none;
+            }
+        }
+
+        body {
+            font-family: 'Courier New', sans-serif;
+            line-height: 1.333;
+            margin: 0;
+            padding: 0 var(--margin-page, 20px);
+            color: var(--ui-primary, #000);
+            text-wrap: pretty;
+        }
+
+        main {
+            max-width: 48em;
+        }
+
+        p {
+            margin: 0 0 1.333em;
+            text-wrap: pretty;
+        }
+
+        a {
+            text-decoration: underline;
+            text-underline-offset: 0.25em;
+            text-decoration-thickness: 1px;
+        }
+
+        a:hover {
+            text-decoration-style: dotted;
+        }
+
+        .anchor__target {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: clamp(4.25em, 4.5vw, 6em);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-wrap: balance;
+            font-family: 'Chakra Petch', sans-serif;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-size: 1em;
+            font-weight: 700;
+            margin: 4em 0 1.33em;
+            text-align: center;
+            text-wrap: balance;
+        }
+
+        dt {
+            font-size: 1em;
+            font-weight: normal;
+            margin: 2.666em 0 0.666em 1.333em;
+            font-style: italic;
+        }
+
+        mark {
+            background-color: #f4f1f1;
+        }
+
+        hr {
+            padding-bottom: 30px;
+            width: 30%;
+            margin: auto;
+        }
+
+        ul li {
+            list-style-type: square;
+            margin-left: 15px;
+            padding-left: 5px;
+        }
+
+        .gradient-text {
+            position: relative;
+            overflow: hidden;
+            background: white;
+            color: black;
+            border: solid 1px white;
+            /* Fix for subpixel rendering */
+        }
+
+        .gradient-text:AFTER {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            aspect-ratio: 1;
+            background: linear-gradient(90deg, #565151, #d2caca);
+            mix-blend-mode: screen;
+            animation: gradRotate 8s linear infinite;
+            pointer-events: none;
+        }
+
+        .footnote {
+            text-align: center;
+            margin: 7em 0 0;
+        }
+
+        .header {
+            max-width: var(--container-4xl);
+            margin-inline: auto;
+            padding-block: 80px;
+        }
+
+        @media(max-width:750px) {
+            :root {
+                --margin-page: 1.333em;
+            }
+        }
+
+        @media(min-width:1500px) {
+            body {
+                font-size: 18px;
+                line-height: 1.333;
+            }
+        }
+
+        .team-members span {
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .team-members span:hover {
+            background-color: #f4f1f1;
+        }
+
+        /* New style: When a team member is "selected", keep it highlighted */
+        .team-members span.selected {
+            background-color: #f4f1f1;
+        }
+
+        #hover-title {
+            min-height: 100px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header role="banner" class="header text-center">
+        <h1 class="gradient-text float-animation inline-block">
+            Thinking<br />Machines
+        </h1>
+    </header>
+    <main role="main" class="mx-auto">
+
+        <p>
+            Thinking Machines Lab is an artificial intelligence research and product company. We're building a future
+            where everyone has access to the knowledge and tools to make AI work for their unique needs and goals.
+        </p>
+
+
+        <p>
+            While AI capabilities have advanced dramatically, key gaps remain. The scientific community's understanding
+            of frontier AI systems lags behind rapidly advancing capabilities. Knowledge of how these systems are
+            trained is concentrated within the top research labs, limiting both the public discourse on AI and people's
+            abilities to use AI effectively. And, despite their potential, these systems remain difficult for people to
+            customize to their specific needs and values. To bridge the gaps, we're building Thinking Machines Lab to
+            make AI systems more widely understood, customizable and generally capable.
+        </p>
+
+        <p>We are scientists, engineers, and builders who've created some of the most widely used AI products, including
+            <a href="https://chatgpt.com" target="_blank">ChatGPT</a> and <a href="https://character.ai/"
+                target="_blank">Character.ai</a>, open-weights models like <a href="https://mistral.ai/"
+                target="_blank">Mistral</a>, as well as popular open source projects like <a href="https://pytorch.org/"
+                target="_blank">PyTorch</a>, <a href="https://github.com/openai/gym" target="_blank">OpenAI Gym</a>, <a
+                href="https://github.com/facebookresearch/fairseq" target="_blank">Fairseq</a>, and <a
+                href="https://github.com/facebookresearch/segment-anything" target="_blank">Segment Anything</a>.
+        </p>
+
+
+
+        <h2>Science is better when shared</h2>
+
+        <p><mark>Scientific progress is a collective effort.</mark> We believe that we'll most effectively advance
+            humanity's understanding of AI by collaborating with the wider community of researchers and builders. We
+            plan to frequently publish technical blog posts, papers, and code. We think sharing our work will not only
+            benefit the public, but also improve our own research culture.</p>
+
+
+        <h2>AI that works for everyone</h2>
+
+        <p><mark>Emphasis on human-AI collaboration.</mark> Instead of focusing solely on making fully autonomous AI
+            systems, we are excited to build multimodal systems that work with people collaboratively.</p>
+
+        <p><mark>More flexible, adaptable, and personalized AI systems.</mark> We see enormous potential for AI to help
+            in every field of work. While current systems excel at programming and mathematics, we're building AI that
+            can adapt to the full spectrum of human expertise and enable a broader spectrum of applications.</p>
+
+        <h2>Solid foundations matter</h2>
+
+        <p><mark>Model intelligence as the cornerstone.</mark> In addition to our emphasis on human-AI collaboration and
+            customization, model intelligence is crucial and we are building models at the frontier of capabilities in
+            domains like science and programming. Ultimately, the most advanced models will unlock the most
+            transformative applications and benefits, such as enabling novel scientific discoveries and engineering
+            breakthroughs.</p>
+
+        <p><mark>Infrastructure quality as a top priority.</mark> Research productivity is paramount and heavily depends
+            on the reliability, efficiency, and ease of use of infrastructure. We aim to build things correctly for the
+            long haul, to maximize both productivity and security, rather than taking shortcuts.</p>
+
+        <p><mark>Advanced multimodal capabilities.</mark> We see multimodality as critical to enabling more natural and
+            efficient communication, preserving more information, better capturing intent, and supporting deeper
+            integration into real-world environments.</p>
+
+
+        <h2>Learning by doing</h2>
+
+        <p><mark>Research and product co-design.</mark> Products enable iterative learning through deployment, while
+            great products and research strengthen each other. Products keep us grounded in reality and guide us to
+            solve the most impactful problems.</p>
+
+        <p><mark>Empirical and iterative approach to AI safety.</mark> The most effective safety measures come from a
+            combination of proactive research and careful real-world testing. We plan to contribute to AI safety by (1)
+            maintaining a high safety bar--preventing misuse of our released models while maximizing users' freedom, (2)
+            sharing best practices and recipes for how to build safe AI systems with the industry, and (3) accelerating
+            external research on alignment by sharing code, datasets, and model specs. We believe that methods developed
+            for present day systems, such as effective red-teaming and post-deployment monitoring, provide valuable
+            insights that will extend to future, more capable systems.</p>
+
+        <p><mark>Measure what truly matters.</mark> We'll focus on understanding how our systems create genuine value in
+            the real world. The most important breakthroughs often come from rethinking our objectives, not just
+            optimizing existing metrics.</p>
+
+
+        <h2>Founding Team</h2>
+        <p class="team-members">
+            <span bio-name="Alex Gartrell"
+                data-bio="Former Leader of Server Operating Systems at Meta, expert in Linux kernel, networking, and containerization."><a
+                    href="https://www.linkedin.com/in/alexgartrell" target="_blank">Alex Gartrell</a></span>,
+
+            <span bio-name="Alexander Kirillov"
+                data-bio="Co-creator of Advanced Voice Mode at OpenAI and Segment Anything Model (SAM) at Meta AI, previously multimodal post-training lead at OpenAI."><a
+                    href="https://scholar.google.com/citations?user=bHn29ScAAAAJ&hl" target="_blank">Alexander
+                    Kirillov</a></span>,
+
+            <span bio-name="Andrew Gu" data-bio="Previously working on PyTorch and Llama pretraining efficiency."><a
+                    href="https://github.com/awgu" target="_blank">Andrew Gu</a></span>,
+
+            <span bio-name="Andrew Tulloch"
+                data-bio="ML systems research and engineering, previously at OpenAI and Meta."><a
+                    href="https://www.linkedin.com/in/andrew-tulloch-17238745/ " target="_blank">Andrew
+                    Tulloch (Chief Architect)</a></span>,
+
+            <span bio-name="Barret Zoph"
+                data-bio="Formerly VP of Research (post-training) at OpenAI. Co-creator of ChatGPT."><a
+                    href="https://scholar.google.com/citations?user=EtliLXcAAAAJ&hl=en" target="_blank">Barret Zoph
+                    (CTO)</a></span>,
+
+            <span bio-name="Brydon Eastman"
+                data-bio="Formerly post-training research at OpenAI, specializing in human and synthetic data, model alignment and RL."><a
+                    href="https://brydon.ai" target="_blank">Brydon Eastman</a></span>,
+
+            <span bio-name="Chih-Kuan Yeh" data-bio="Previously Building data for Google Gemini and Mistral AI."><a
+                    href="https://scholar.google.com/citations?user=tikMtMsAAAAJ&hl=en" target="_blank">Chih-Kuan
+                    Yeh</a></span>,
+
+            <span bio-name="Christian Gibson"
+                data-bio="Formerly infrastructure engineer at OpenAI, focused on supercomputers used in training frontier models."><a
+                    href="https://www.linkedin.com/in/christianjgibson/" target="_blank">Christian Gibson</a></span>,
+
+            <span bio-name="Devendra Chaplot"
+                data-bio="Founding team member & Head of Multimodal Research at Mistral AI, co-creator of Mixtral and Pixtral. Expert in VLMs, RL, & Robotics."><a
+                    href="https://x.com/dchaplot" target="_blank">Devendra Chaplot</a></span>,
+
+            <span bio-name="Horace He"
+                data-bio="Interested in making both researchers and GPUs happy, formerly working on PyTorch Compilers at Meta, co-creator of FlexAttention/gpt-fast/torch.compile"><a
+                    href="https://x.com/cHHillee" target="_blank">Horace He</a></span>,
+
+            <span bio-name="Ian O'Connell" data-bio="Infrastructure engineering, previously OpenAI, Netflix, Stripe."><a
+                    href="https://github.com/ianoc" target="_blank">Ian O'Connell</a></span>,
+
+            <span bio-name="Jacob Menick"
+                data-bio="ML researcher, led GPT-4o-mini at OpenAI, previously contributed to the creation of ChatGPT and deep generative models at DeepMind."><a
+                    href="https://www.linkedin.com/in/jacob-menick-5a277a135/" target="_blank">Jacob Menick</a></span>,
+
+            <span bio-name="Joel Parish"
+                data-bio="Security generalist, helped ship and scale the first versions of ChatGPT at OpenAI."><a
+                    href="https://www.linkedin.com/in/jwpari/" target="_blank">Joel Parish</a></span>,
+
+            <span bio-name="John Schulman"
+                data-bio="Pioneer of deep reinforcement learning and creator of PPO, cofounder of OpenAI, co-led ChatGPT and OpenAI post-training team."><a
+                    href="http://joschu.net" target="_blank">John Schulman (Chief
+                    Scientist)</a></span>,
+
+            <span bio-name="Jonathan Lachman"
+                data-bio="Operations executive, former head of special projects at OpenAI and White House national security budget director."><a
+                    href="https://www.linkedin.com/in/jonathan-lachman-4981b23/" target="_blank">Jonathan
+                    Lachman</a></span>,
+
+            <span bio-name="Joshua Gross"
+                data-bio="Built product and research infrastructure at OpenAI, shaping ChatGPT's learning systems and GPU fleet; previously on product infra at Meta."><a
+                    href="https://www.linkedin.com/in/joshgross" target="_blank">Joshua Gross</a></span>,
+
+            <span bio-name="Kevin Button"
+                data-bio="Security engineer focused on infrastructure and data security, formerly at OpenAI."><a
+                    href="https://github.com/panic-kbutton" target="_blank">Kevin Button</a></span>,
+
+            <span bio-name="Kurt Shuster"
+                data-bio="Reasoning at Google DeepMind, full-stack pre-training and inference at Character.AI, and fundamental dialogue research at Meta AI."><a
+                    href="https://scholar.google.com/citations?user=VeRSO8EAAAAJ&hl=en" target="_blank">Kurt
+                    Shuster</a></span>,
+
+            <span bio-name="Kyle Luther" data-bio="ML researcher, previously at OpenAI."><a
+                    href="https://www.linkedin.com/in/kyle-luther-624448bb/" target="_blank">Kyle Luther</a></span>,
+
+            <span bio-name="Lilian Weng" data-bio="Formerly VP of Research (safety) at OpenAI. Author of Lil'Log."><a
+                    href="https://lilianweng.github.io/" target="_blank">Lilian Weng</a></span>,
+
+            <span bio-name="Luke Metz"
+                data-bio="Research scientist and engineer, previously at OpenAI and Google Brain. Co-creator of ChatGPT."><a
+                    href="https://scholar.google.com/citations?user=k_u5ULgAAAAJ&hl=en" target="_blank">Luke
+                    Metz</a></span>,
+
+            <span bio-name="Mario Saltarelli" data-bio="Former IT and Security leader at OpenAI."><a
+                    href="https://www.linkedin.com/in/msaltarelli" target="_blank">Mario Saltarelli</a></span>,
+
+            <span bio-name="Mark Jen" data-bio="Generalist, most recently infra @ Meta."><a
+                    href="https://www.linkedin.com/in/markjen/" target="_blank">Mark Jen</a></span>,
+
+            <span bio-name="Mianna Chen"
+                data-bio="Previously at OpenAI and Google DeepMind. Led advanced voice mode, 4o, 4o-mini, o1-preview, and o1-mini launches."><a
+                    href="https://www.linkedin.com/in/mianna-chen" target="_blank">Mianna Chen</a></span>,
+
+            <span bio-name="Mira Murati" data-bio="Former CTO of OpenAI, led OpenAI's research, product and safety."><a
+                    href="https://en.wikipedia.org/wiki/Mira_Murati" target="_blank">Mira Murati (CEO)</a></span>,
+
+            <span bio-name="Myle Ott"
+                data-bio="AI researcher, founding team at Character.AI, early LLM lead at Meta, creator of FSDP and fairseq."><a
+                    href="https://scholar.google.com/citations?user=5LtyqOQAAAAJ&hl=en" target="_blank">Myle
+                    Ott</a></span>,
+
+            <span bio-name="Naman Goyal"
+                data-bio="Previously distributed training and scaling at FAIR and GenAI @Meta, most recently LLAMA pretraining."><a
+                    href="https://scholar.google.com/citations?user=CRbM_P4AAAAJ&hl=en&oi=ao" target="_blank">Naman
+                    Goyal</a></span>,
+
+            <span bio-name="Nikki Sommer" data-bio="Formerly VP HRBP at OpenAI and Director, HRBP at Twitter."><a
+                    href="https://www.linkedin.com/in/nikkikoutoulas/" target="_blank">Nikki
+                    Sommer</a></span>,
+
+            <span bio-name="Noah Shpak" data-bio="ML Engineer, loves making data go vroom while GPUs go Brrr."><a
+                    href="https://www.linkedin.com/in/nshpak/" target="_blank">Noah Shpak</a></span>,
+
+            <span bio-name="Pia Santos" data-bio="Executive Operations Leader, previously at OpenAI."><a
+                    href="https://www.linkedin.com/in/piafsantos/" target="_blank">Pia Santos</a></span>,
+
+            <span bio-name="Randall Lin"
+                data-bio="Previously babysitting ChatGPT at OpenAI and co-tech leading 'the Twitter algorithm' at X."><a
+                    href="https://github.com/twitter/the-algorithm-ml/tree/main" target="_blank">Randall Lin</a></span>,
+
+            <span bio-name="Rowan Zellers"
+                data-bio="Formerly at OpenAI, working on realtime multimodal posttraining."><a
+                    href="https://rowanzellers.com" target="_blank">Rowan Zellers</a></span>,
+
+            <span bio-name="Sam Schoenholz"
+                data-bio="Led the reliable scaling team and GPT-4o optimization at OpenAI. Previously worked at the intersection between Statistical Physics & ML at Google Brain."><a
+                    href="https://scholar.google.com/citations?user=mk-zQBsAAAAJ&hl=en&oi=ao" target="_blank">Sam
+                    Schoenholz</a></span>,
+
+            <span bio-name="Sam Shleifer"
+                data-bio="Research engineer specializing in inference, previously at Character.AI, Google DeepMind, FAIR, HuggingFace."><a
+                    href="https://scholar.google.com/citations?user=_d5MbfoAAAAJ&hl=en" target="_blank">Sam
+                    Shleifer</a></span>,
+
+            <span bio-name="Saurabh Garg"
+                data-bio="Researcher, formerly working on all things multimodal at Mistral AI. Deep into the magic of pretraining data and loving every byte of it!"><a
+                    href="https://saurabhgarg1996.github.io/" target="_blank">Saurabh Garg</a></span>,
+
+            <span bio-name="Shaojie Bai"
+                data-bio="Avid ML researcher to make audio-visual models better and faster, previously at Meta."><a
+                    href="https://scholar.google.com/citations?user=DLVP3PcAAAAJ&hl=en" target="_blank">Shaojie
+                    Bai</a></span>,
+
+            <span bio-name="Stephen Roller"
+                data-bio="Previously full-stack pre-training at DeepMind, CharacterAI, and MetaAI."><a
+                    href="https://stephenroller.com" target="_blank">Stephen Roller</a></span>,
+
+            <span bio-name="Yifu Wang"
+                data-bio="Passionate about novel ways of overlapping/fusing GPU compute and communication. Formerly PyTorch @ Meta."><a
+                    href="https://github.com/yifuwang" target="_blank">Yifu Wang</a></span>, and
+
+            <span bio-name="Yinghai Lu"
+                data-bio="ML system engineer, formerly led various inference efforts at OpenAI and Meta."><a
+                    href="https://www.linkedin.com/in/yinghai83/" target="_blank">Yinghai Lu</a></span>.
+        </p>
+
+        <!-- Hover Title Display -->
+        <div id="hover-title" class="mx-auto mt-4 p-4 bg-white border border-gray-200 rounded transition">
+        </div>
+
+
+        <h2>Advisors</h2>
+        <p>
+            Alec Radford, Bob McGrew
+        </p>
+
+        <h2>Join Us</h2>
+
+        <p>
+            We're building AI systems that push technical boundaries while delivering real value to as many people as
+            possible. Our team combines rigorous engineering with creative exploration, and we're looking for
+            collaborators to help shape this vision.
+        </p>
+        <p>
+            We're pausing accepting new applications currently, please check back later. You can follow us on X at <a
+                href="https://x.com/thinkymachines" target="_blank">@thinkymachines</a>. <!-- or
+            <a href="https://6wajk07p.paperform.co/" target="_blank">submit job
+                applications here</a> if you're interested in working with us. -->
+        </p>
+
+
+        <!--
+        <dl>
+            <dt><a class="anchor__target" name="product-builders"><b>Product Builders</b></a></dt>
+            <dd>
+                <p>
+                    Join us in the exciting early stages of building something transformative. We are looking for people
+                    with a strong track record of building successful AI-driven products from the ground up and
+                    enthusiasm about wearing multiple hats--building functional product prototypes, crafting smooth UI
+                    designs and directing product decisions--to bring cutting-edge AI to the real world.
+                </p>
+            </dd>
+
+            <dt><a class="anchor__target" name="ml-experts"><b>Machine Learning Experts</b></a>
+            </dt>
+            <dd>
+                <p>
+                    We're putting together a small, high-caliber team of machine learning scientists and engineers. The
+                    activities will range from building training infrastructure to carrying out exploratory research
+                    projects. Whether you hold a PhD or are self-taught, we're interested in candidates who can
+                    demonstrate concrete achievements in ML research and engineering through:
+                </p>
+                <ul>
+                    <li>Research publications in ML</li>
+                    <li>Open-source ML implementations</li>
+                    <li>Experience building and scaling ML systems</li>
+                </ul>
+            </dd>
+            <dt><a class="anchor__target" name="pm"><b>Research Program Manager</b></a></dt>
+            <dd>
+                <p>An efficient process can transform an entire team's productivity. As our <i>first</i> Research
+                    Program Manager, you'll shape how our team operates, scale our human data efforts, and lead key
+                    projects like GPU compute planning. If you excel at problem solving, fast learning, and driving
+                    operational excellence, this is your chance to make a big impact. A strong technical foundation and
+                    the ability to learn things fast will be highly valued.
+                </p>
+            </dd>
+        </dl>
+        -->
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footnote">
+        <p>&copy; 2025 Thinking Machines Lab.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const hoverTitle = document.getElementById("hover-title");
+            if (!hoverTitle) {
+                console.error("No element with id 'hover-title' found.");
+                return;
+            }
+
+            const teamMembers = document.querySelectorAll(".team-members span");
+            if (teamMembers.length === 0) {
+                console.error("No team member spans found under '.team-members'.");
+                return;
+            }
+
+            // Choose a random team member for the default bio on load.
+            const randomIndex = Math.floor(Math.random() * teamMembers.length);
+            const defaultMember = teamMembers[randomIndex];
+
+            defaultMember.classList.add("selected");
+            hoverTitle.innerHTML = `<b class="font-semibold mb-0.7">${defaultMember.getAttribute("bio-name").trim()}</b><p>${defaultMember.dataset.bio}</p>`;
+
+            function isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+
+            function updateBio(member) {
+                teamMembers.forEach(m => m.classList.remove("selected"));
+                member.classList.add("selected");
+                hoverTitle.innerHTML = `<b class="font-semibold mb-0.7">${member.getAttribute("bio-name").trim()}</b><p class="mb-0">${member.dataset.bio}</p>`;
+            }
+
+            function updateMobileBio(member) {
+                teamMembers.forEach(m => m.classList.remove("selected"));
+                member.classList.add("selected");
+                hoverTitle.innerHTML = `<a href="${member.querySelector('a').href}" target="_blank"><b class="font-semibold mb-0.7">${member.getAttribute("bio-name").trim()}</b></a><p class="mb-0">${member.dataset.bio}</p>`;
+            }
+
+            // Add hover event listeners for each team member.
+            teamMembers.forEach(member => {
+                // Desktop hover event
+                member.addEventListener("mouseenter", () => {
+                    updateBio(member);
+                });
+
+                if (isMobileDevice()) {
+                    // Mobile click event to toggle bio
+                    member.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        updateMobileBio(member);
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
