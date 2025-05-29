@@ -1,0 +1,11 @@
+{
+  "name": "reman-minimal-website",
+  "version": "1.0.0",
+  "description": "Reman AI website with Netlify functions",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^7.7.0"
+  }
+}
