@@ -10,7 +10,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600&display=swap" rel="stylesheet">
-
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "178j1b2d6ajnYDNMI",
+            });
+        })();
+    </script>
 
 
     <style>
@@ -319,41 +327,19 @@
                 Submit
             </button>
         </form>
-
-        <script>
-            document.getElementById('inquiryForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                const formData = {
-                    name: document.getElementById('name').value,
-                    role: document.getElementById('role').value,
-                    email: document.getElementById('email').value,
-                    phone: document.getElementById('phone').value,
-                    inquiry: document.getElementById('inquiry').value
-                };
-
-                try {
-                    const response = await fetch('/.netlify/functions/submit-form', {
-                        method: 'POST',
-                        body: JSON.stringify(formData),
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        alert('Thank you for your inquiry! We will get back to you soon.');
-                        this.reset();
-                    } else {
-                        alert('Error submitting form: ' + result.message);
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Error submitting form. Please try again later.');
-                }
-            });
+        <script type="text/javascript">
+            window.onload = function() {
+                document.getElementById('inquiryForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    // these IDs from the previous steps
+                    emailjs.sendForm('service_ja62z1g', 'template_7c61tok', this)
+                        .then(() => {
+                            console.log('SUCCESS!');
+                        }, (error) => {
+                            console.log('FAILED...', error);
+                        });
+                });
+            }
         </script>
         <!--
         <center>
